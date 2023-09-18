@@ -55,12 +55,22 @@ const speciesSchema = z.object({
 type FormData = z.infer<typeof speciesSchema>;
 
 const defaultValues: Partial<FormData> = {
-  kingdom: "Animalia",
+  kingdom: kingdoms.options[0], //"Animalia",
 };
+
+interface WikipediaData {
+  scientific_name: string;
+  common_name: { display: string };
+  description: string;
+  image: { display: string };
+  // Add other relevant fields as needed
+}
 
 export default function AddSpeciesDialog({ userId }: { userId: string }) {
   const router = useRouter();
   const [open, setOpen] = useState<boolean>(false);
+  const [searchResults, setSearchResults] = useState<WikipediaData[]>([]); // Initialize as an empty array
+  const [searchWikipediaVisible, setSearchWikipediaVisible] = useState<boolean>(false); // Control visibility of Wikipedia search input
 
   const form = useForm<FormData>({
     resolver: zodResolver(speciesSchema),
@@ -101,6 +111,71 @@ export default function AddSpeciesDialog({ userId }: { userId: string }) {
     router.refresh();
   };
 
+  const fillWithWikipediaData = async (searchQuery: string) => {
+    try {
+      const response = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${searchQuery}`);
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch Wikipedia data");
+      }
+      const data: string = await response.json();
+      // console.log("population error");
+
+      // Extract relevant data from the Wikipedia response
+      const sampleData = {
+        scientific_name: "Not Identified",
+        common_name: (data.title as string) || "",
+        description: (data.extract as string) || "",
+        image: ((data.originalimage as string)?.source as string) || "",
+        population: 0, // Provide a default message if data is not found
+        // Add other relevant fields as needed
+      };
+
+      // Set form field values with the Wikipedia data
+      form.setValue("scientific_name", sampleData.scientific_name);
+      form.setValue("common_name", sampleData.common_name);
+      form.setValue("image", sampleData.image);
+      form.setValue("description", sampleData.description);
+      // Set other fields as needed
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to fetch Wikipedia data",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const searchWikipedia = async (searchQuery: string) => {
+    try {
+      const response = await fetch(
+        `https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&origin=*&srsearch=${searchQuery}`,
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch Wikipedia search results");
+      }
+      const data = await response.json();
+
+      // Extract search results from the Wikipedia response
+      const query = data.query as { search?: string[] }; // Ensure query is of the expected type
+
+      const results = query.search ?? [];
+
+      // Update searchResults state with the retrieved search results
+      setSearchResults(results);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to fetch Wikipedia search results",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleFillWithWikipedia = () => {
+    setSearchWikipediaVisible(true);
+  };
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -132,6 +207,7 @@ export default function AddSpeciesDialog({ userId }: { userId: string }) {
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name="common_name"
@@ -244,7 +320,43 @@ export default function AddSpeciesDialog({ userId }: { userId: string }) {
                 >
                   Cancel
                 </Button>
+                <Button
+                  type="button"
+                  className="ml-1 mr-1 flex-auto"
+                  //onClick={() => void fillWithWikipediaData(form.getValues("common_name"))}
+                  onClick={() => handleFillWithWikipedia()}
+                >
+                  Fill with Wikipedia Data
+                </Button>
               </div>
+              {searchWikipediaVisible && (
+                <div>
+                  <p className="text-sm text-muted-foreground">
+                    *Note that this feature only fetches Common Name, Image URL, and Description.*
+                  </p>
+
+                  {/* Input field for Wikipedia search */}
+                  <Input
+                    type="text"
+                    placeholder="Search Wikipedia with Species Common Name and Select Article"
+                    onChange={(e) => void searchWikipedia(e.target.value)}
+                  />
+                  {/* List of search results */}
+                  <ul>
+                    {searchResults.map((result, index) => (
+                      <li key={index}>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => void fillWithWikipediaData(result.title as string)}
+                        >
+                          {result.title}
+                        </Button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           </form>
         </Form>
