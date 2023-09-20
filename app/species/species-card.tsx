@@ -320,7 +320,7 @@ export default function SpeciesCard(species: Species) {
                             <FormItem>
                               <FormLabel>Common Name</FormLabel>
                               <FormControl>
-                                <Input value={value ?? ""} placeholder={species.common_name} {...rest} />
+                                <Input value={value ?? ""} placeholder={species.common_name ?? ""} {...rest} />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -399,7 +399,7 @@ export default function SpeciesCard(species: Species) {
                             <FormItem>
                               <FormLabel>Description</FormLabel>
                               <FormControl>
-                                <Textarea value={value ?? ""} placeholder={species.description} {...rest} />
+                                <Textarea value={value ?? ""} placeholder={species.description ?? ""} {...rest} />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
