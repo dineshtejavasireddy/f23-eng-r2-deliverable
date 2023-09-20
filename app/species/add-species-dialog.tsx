@@ -163,12 +163,12 @@ export default function AddSpeciesDialog({ userId }: { userId: string }) {
       if (!response.ok) {
         throw new Error("Failed to fetch Wikipedia search results");
       }
-      const data = (await response.json()) as WikipediaResponse;
+      const data = (await response.json()) as { query: { search?: WikipediaData[] } };
 
       // Extract search results from the Wikipedia response
-      const query = data.query as { search?: string[] }; // Ensure query is of the expected type
+      //const query = data.query as { search?: string[] }; // Ensure query is of the expected type
 
-      const results = query.search ?? [];
+      const results = data.query.search ?? [];
 
       // Update searchResults state with the retrieved search results
       setSearchResults(results);
