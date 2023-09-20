@@ -27,7 +27,6 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 type Species = Database["public"]["Tables"]["species"]["Row"];
-type Author = Database["public"]["Tables"]["profiles"]["Row"];
 
 const kingdoms = z.enum(["Animalia", "Plantae", "Fungi", "Protista", "Archaea", "Bacteria"]);
 
@@ -56,13 +55,13 @@ const speciesSchema = z.object({
 
 type FormData = z.infer<typeof speciesSchema>;
 
-interface SpeciesCardProps {
-  species: Species;
-  authorInfo: Author;
-  filterCriteria: FilterCriteria; // Define the type for your filter criteria
-  setFilteredSpecies: (filteredData: Species[]) => void;
-  filterFunc: (species: Species, filterCriteria: FilterCriteria) => boolean; // Define the filterFunc prop
-}
+// interface SpeciesCardProps {
+//   species: Species;
+//   authorInfo: Author;
+//   filterCriteria: FilterCriteria; // Define the type for your filter criteria
+//   setFilteredSpecies: (filteredData: Species[]) => void;
+//   filterFunc: (species: Species, filterCriteria: FilterCriteria) => boolean; // Define the filterFunc prop
+// }
 
 export default function SpeciesCard(species: Species) {
   const router = useRouter();

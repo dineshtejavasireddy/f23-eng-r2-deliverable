@@ -58,13 +58,13 @@ const defaultValues: Partial<FormData> = {
   kingdom: kingdoms.options[0], //"Animalia",
 };
 
-interface WikipediaData {
-  scientific_name: string;
-  common_name: { display: string };
-  description: string;
-  image: { display: string };
-  // Add other relevant fields as needed
-}
+// interface WikipediaData {
+//   scientific_name: string;
+//   common_name: { display: string };
+//   description: string;
+//   image: { display: string };
+//   // Add other relevant fields as needed
+// }
 
 export default function AddSpeciesDialog({ userId }: { userId: string }) {
   const router = useRouter();
