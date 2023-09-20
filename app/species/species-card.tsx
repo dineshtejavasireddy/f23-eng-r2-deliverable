@@ -156,6 +156,18 @@ export default function SpeciesCard({ species }: SpeciesCardProps) {
     }
   };
 
+  interface NewsArticle {
+    // Define the properties you expect to receive from the NewsAPI response
+    title: string;
+    description: string;
+    // Add other relevant fields as needed
+  }
+
+  interface NewsApiResponse {
+    articles: NewsArticle[];
+    // Add other relevant fields as needed
+  }
+
   // Function to fetch related articles
   const fetchRelatedArticles = async (speciesName) => {
     try {
@@ -165,7 +177,7 @@ export default function SpeciesCard({ species }: SpeciesCardProps) {
       const query = `${speciesName} wildlife`; // Adjust the query as needed
 
       // Make the API request to fetch articles
-      const response = await axios.get(newsApiEndpoint, {
+      const response = await axios.get<NewsApiResponse>(newsApiEndpoint, {
         params: {
           q: query,
           apiKey: apiKey,
@@ -173,7 +185,7 @@ export default function SpeciesCard({ species }: SpeciesCardProps) {
       });
 
       // Extract the articles from the response
-      const articles = response.data.articles;
+      const articles: NewsArticle[] = response.data.articles;
 
       return articles;
     } catch (error) {

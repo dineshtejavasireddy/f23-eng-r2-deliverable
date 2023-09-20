@@ -111,6 +111,15 @@ export default function AddSpeciesDialog({ userId }: { userId: string }) {
     router.refresh();
   };
 
+  interface WikipediaResponse {
+    title: string;
+    extract: string;
+    originalimage: {
+      source: string;
+    };
+    // Add other relevant fields as needed
+  }
+
   const fillWithWikipediaData = async (searchQuery: string) => {
     try {
       const response = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${searchQuery}`);
@@ -118,15 +127,15 @@ export default function AddSpeciesDialog({ userId }: { userId: string }) {
       if (!response.ok) {
         throw new Error("Failed to fetch Wikipedia data");
       }
-      const data = await response.json();
+      const data: WikipediaResponse = await response.json();
       // console.log("population error");
 
       // Extract relevant data from the Wikipedia response
       const sampleData = {
         scientific_name: "",
-        common_name: (data.title as string) || "",
-        description: (data.extract as string) || "",
-        image: ((data.originalimage as string)?.source as string) || "",
+        common_name: data.title || "",
+        description: data.extract || "",
+        image: data.originalimage?.source || "",
         population: 0, // Provide a default message if data is not found
         // Add other relevant fields as needed
       };

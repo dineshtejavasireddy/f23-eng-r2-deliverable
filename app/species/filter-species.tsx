@@ -54,7 +54,13 @@ const defaultValues: Partial<FormData> = {
   kingdom: "Animalia",
 };
 
-export default function FilterSpecies({ onFilteredSpeciesChange }) {
+interface FilterSpeciesProps {
+  onFilteredSpeciesChange: (data: YourDataType[]) => void; // Replace YourDataType with the actual type
+  setFilterCriteria: (criteria: YourCriteriaType) => void; // Replace YourCriteriaType with the actual type
+  setFilteredSpecies: (species: YourSpeciesType[]) => void; // Replace YourSpeciesType with the actual type
+}
+
+export default function FilterSpecies({ onFilteredSpeciesChange, setFilterCriteria }: FilterSpeciesProps) {
   //, setFilterCriteria, setFilteredSpecies }) {
   const router = useRouter();
   const [open, setOpen] = useState<boolean>(false);
