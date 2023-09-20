@@ -18,8 +18,6 @@ export default async function SpeciesList() {
 
   const { data: species } = await supabase.from("species").select("*");
 
-  const { data: authorInfo } = await supabase.from("profiles").select("*");
-
   return (
     <>
       <div className="mb-5 flex flex-wrap items-center justify-between gap-4">
@@ -35,7 +33,6 @@ export default async function SpeciesList() {
               <SpeciesCard
                 key={species.id}
                 species={species}
-                authorInfo={authorInfo}
                 // filterCriteria={filterCriteria}
                 // setFilteredSpecies={setFilteredSpecies}
                 // filterFunc={filterFunc}
