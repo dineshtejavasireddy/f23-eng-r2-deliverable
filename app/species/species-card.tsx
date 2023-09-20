@@ -64,7 +64,7 @@ interface SpeciesCardProps {
   filterFunc: (species: Species, filterCriteria: FilterCriteria) => boolean; // Define the filterFunc prop
 }
 
-export default function SpeciesCard({ species }: SpeciesCardProps) {
+export default function SpeciesCard(species: Species) {
   const router = useRouter();
   const [open, setOpen] = useState<boolean>(false);
   const [isMounted, setIsMounted] = useState(false);
