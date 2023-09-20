@@ -69,7 +69,7 @@ interface WikipediaData {
 export default function AddSpeciesDialog({ userId }: { userId: string }) {
   const router = useRouter();
   const [open, setOpen] = useState<boolean>(false);
-  const [searchResults, setSearchResults] = useState<WikipediaData[]>([]); // Initialize as an empty array
+  const [searchResults, setSearchResults] = useState<WikipediaResponse[]>([]); // Initialize as an empty array
   const [searchWikipediaVisible, setSearchWikipediaVisible] = useState<boolean>(false); // Control visibility of Wikipedia search input
 
   const form = useForm<FormData>({
@@ -354,11 +354,7 @@ export default function AddSpeciesDialog({ userId }: { userId: string }) {
                   <ul>
                     {searchResults.map((result, index) => (
                       <li key={index}>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => void fillWithWikipediaData(result.title as string)}
-                        >
+                        <Button variant="ghost" size="sm" onClick={() => void fillWithWikipediaData(result.title)}>
                           {result.title}
                         </Button>
                       </li>
