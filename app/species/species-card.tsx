@@ -166,7 +166,7 @@ export default function SpeciesCard(species: Species) {
   }
 
   // Function to fetch related articles
-  const fetchRelatedArticles = async (speciesName) => {
+  const fetchRelatedArticles = async (speciesName: string) => {
     try {
       // Set NewsAPI endpoint and API key here
       const apiKey = "8f4360e1bec44ec9ae774520223d08d8";
