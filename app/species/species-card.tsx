@@ -21,7 +21,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useState, type BaseSyntheticEvent } from "react";
+import { useEffect, useState, type BaseSyntheticEvent } from "React";
 import { useForm } from "react-hook-form";
 
 import { z } from "zod";

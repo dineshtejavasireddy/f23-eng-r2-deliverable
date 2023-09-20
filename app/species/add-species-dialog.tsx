@@ -19,7 +19,7 @@ import { type Database } from "@/lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
-import { useState, type BaseSyntheticEvent } from "react";
+import { useState, type BaseSyntheticEvent } from "React";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -118,7 +118,7 @@ export default function AddSpeciesDialog({ userId }: { userId: string }) {
       if (!response.ok) {
         throw new Error("Failed to fetch Wikipedia data");
       }
-      const data: string = await response.json();
+      const data = await response.json();
       // console.log("population error");
 
       // Extract relevant data from the Wikipedia response
