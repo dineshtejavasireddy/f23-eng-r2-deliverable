@@ -1,6 +1,7 @@
-import GeneralTermsCond from "./termscond";
+import { TypographyP } from "@/components/ui/typography";
 
 export default function GeneralSettings() {
   //Done
-  return <GeneralTermsCond />;
+  return;
+  <TypographyP>Edit General</TypographyP>;
 }

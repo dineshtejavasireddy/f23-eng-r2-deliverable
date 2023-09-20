@@ -123,7 +123,7 @@ export default function AddSpeciesDialog({ userId }: { userId: string }) {
 
       // Extract relevant data from the Wikipedia response
       const sampleData = {
-        scientific_name: "Not Identified",
+        scientific_name: "",
         common_name: (data.title as string) || "",
         description: (data.extract as string) || "",
         image: ((data.originalimage as string)?.source as string) || "",
