@@ -367,7 +367,9 @@ export default function SpeciesCard(species: Species) {
                               {/* Using shadcn/ui form with number: https://github.com/shadcn-ui/ui/issues/421 */}
                               <Input
                                 type="number"
-                                placeholder={species.total_population ?? 0}
+                                placeholder={
+                                  species.total_population !== null ? species.total_population.toString() : ""
+                                } //{species.total_population ?? 0}
                                 {...field}
                                 onChange={(event) => field.onChange(+event.target.value)}
                               />
