@@ -127,7 +127,7 @@ export default function AddSpeciesDialog({ userId }: { userId: string }) {
       if (!response.ok) {
         throw new Error("Failed to fetch Wikipedia data");
       }
-      const data: WikipediaResponse = await response.json();
+      const data = (await response.json()) as WikipediaResponse;
       // console.log("population error");
 
       // Extract relevant data from the Wikipedia response
