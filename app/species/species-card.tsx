@@ -55,14 +55,6 @@ const speciesSchema = z.object({
 
 type FormData = z.infer<typeof speciesSchema>;
 
-// interface SpeciesCardProps {
-//   species: Species;
-//   authorInfo: Author;
-//   filterCriteria: FilterCriteria; // Define the type for your filter criteria
-//   setFilteredSpecies: (filteredData: Species[]) => void;
-//   filterFunc: (species: Species, filterCriteria: FilterCriteria) => boolean; // Define the filterFunc prop
-// }
-
 export default function SpeciesCard(species: Species) {
   const router = useRouter();
   const [open, setOpen] = useState<boolean>(false);
@@ -92,6 +84,7 @@ export default function SpeciesCard(species: Species) {
     mode: "onChange",
   });
 
+  //Update Species Cards Upon Edit Form Submission
   const onSubmit = async (input: FormData) => {
     const supabase = createClientComponentClient<Database>();
     const { error } = await supabase
@@ -121,6 +114,7 @@ export default function SpeciesCard(species: Species) {
     router.refresh();
   };
 
+  //Deletes Species Card On Click of "Delete Species" Button
   const handleDelete = async () => {
     const confirmation = window.confirm(`Are you sure you want to delete ${species.scientific_name}?`);
 
@@ -142,6 +136,7 @@ export default function SpeciesCard(species: Species) {
     router.refresh();
   };
 
+  //Executes Upon Click of Social Media Sharing Button
   const handleSocialClick = () => {
     if (isMounted) {
       const currentURL = window.location.href;
@@ -153,11 +148,10 @@ export default function SpeciesCard(species: Species) {
     }
   };
 
+  //Prepares Interfaces for NewsAPI Responses (Displaying Related Articles)
   interface NewsArticle {
-    // Define the properties you expect to receive from the NewsAPI response
     title: string;
     description: string;
-    // Add other relevant fields as needed
   }
 
   interface NewsApiResponse {
@@ -168,12 +162,12 @@ export default function SpeciesCard(species: Species) {
   // Function to fetch related articles
   const fetchRelatedArticles = async (speciesName: string) => {
     try {
-      // Set NewsAPI endpoint and API key here
+      // Sets NewsAPI endpoint and API key
       const apiKey = "8f4360e1bec44ec9ae774520223d08d8";
       const newsApiEndpoint = "https://newsapi.org/v2/everything";
       const query = `${speciesName} wildlife`; // Adjust the query as needed
 
-      // Make the API request to fetch articles
+      // Makes the API request to fetch articles
       const response = await axios.get<NewsApiResponse>(newsApiEndpoint, {
         params: {
           q: query,
@@ -181,7 +175,7 @@ export default function SpeciesCard(species: Species) {
         },
       });
 
-      // Extract the articles from the response
+      // Extracts the articles from the response
       const articles: NewsArticle[] = response.data.articles;
 
       return articles;
@@ -223,14 +217,10 @@ export default function SpeciesCard(species: Species) {
       <h4 className="text-lg font-light italic">{species.scientific_name}</h4>
       <p>{species.description ? species.description.slice(0, 150).trim() + "..." : ""}</p>
 
+      {/*Detailed View Dialog (Learn More) (Feature 1)*/}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button
-            className="mt-3 w-full"
-            onClick={() => setOpen(true)}
-            //onClick={() => handleViewRelatedArticlesClick}
-            //href={`/species/${species.id}`}
-          >
+          <Button className="mt-3 w-full" onClick={() => setOpen(true)}>
             Learn More
           </Button>
         </DialogTrigger>
@@ -253,10 +243,11 @@ export default function SpeciesCard(species: Species) {
               className="mt-3 w-full"
               variant="secondary"
               onClick={() => void handleViewRelatedArticlesClick(species.common_name ?? "")}
-              //href={`/species/${species.id}`}
             >
               Browse Related Articles
             </Button>
+
+            {/*Related Articles Display Section (Only Appears with Click of Browse Button)(Feature 3-Stretch)*/}
             {showRelatedArticles ? (
               <div>
                 <h3 className="mt-3 text-2xl font-semibold">Related Articles</h3>
@@ -264,13 +255,7 @@ export default function SpeciesCard(species: Species) {
                   <ul>
                     {relatedArticles.slice(0, 3).map((article) => (
                       <li key={article.title}>
-                        <Button
-                          className="mt-3 w-full"
-                          variant="secondary"
-                          //href={article.url as string}
-                          //target="_blank"
-                          //rel="noopener noreferrer"
-                        >
+                        <Button className="mt-3 w-full" variant="secondary">
                           {article.title}
                         </Button>
                       </li>
@@ -284,6 +269,7 @@ export default function SpeciesCard(species: Species) {
               </div>
             ) : null}
 
+            {/*Edit Information Dialog within Learn More Dialog (Appears with Click of "Edit Info" Button)(Feature 2)*/}
             <Dialog>
               <DialogTrigger asChild>
                 <Button className="mt-3 w-full" onClick={() => setOpen(true)}>
@@ -369,7 +355,7 @@ export default function SpeciesCard(species: Species) {
                                 type="number"
                                 placeholder={
                                   species.total_population !== null ? species.total_population.toString() : ""
-                                } //{species.total_population ?? 0}
+                                }
                                 {...field}
                                 onChange={(event) => field.onChange(+event.target.value)}
                               />
@@ -395,7 +381,6 @@ export default function SpeciesCard(species: Species) {
                         control={form.control}
                         name="description"
                         render={({ field }) => {
-                          // We must extract value from field and convert a potential defaultValue of `null` to "" because textareas can't handle null values: https://github.com/orgs/react-hook-form/discussions/4091
                           const { value, ...rest } = field;
                           return (
                             <FormItem>
@@ -426,61 +411,17 @@ export default function SpeciesCard(species: Species) {
                 </Form>
               </DialogContent>
             </Dialog>
-
-            {/* <Dialog>
-              <DialogTrigger>
-                <Button
-                  className="mt-3 w-full"
-                  variant="default"
-                  onClick={() => handleViewRelatedArticlesClick()} // Trigger the fetch on click
-                >
-                  View Related Articles
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
-                {showRelatedArticles ? (
-                  <div>
-                    <h3 className="mt-3 text-2xl font-semibold">Related Articles</h3>
-                    {relatedArticles.length > 0 ? (
-                      <ul>
-                        {relatedArticles.slice(0, 3).map((article) => (
-                          <li key={article.title as string}>
-                            <Button
-                              className="mt-3 w-full"
-                              variant="secondary"
-                              href={article.url as string}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              {article.title}
-                            </Button>
-                          </li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <Button className="mt-3 w-full" variant="secondary">
-                        No Relevant Articles Found
-                      </Button>
-                    )}
-                  </div>
-                ) : null}
-              </DialogContent>
-            </Dialog> */}
           </div>
         </DialogContent>
       </Dialog>
 
+      {/*Delete Species Button => Delete Function (Feature 3-Stretch)*/}
       <Button className="mt-3 w-full" variant="destructive" onClick={() => void handleDelete()}>
         Delete Species
       </Button>
-      <Button
-        className="mt-3 w-full"
-        variant="secondary"
-        onClick={handleSocialClick}
-        //target="_blank"
-        size="sm"
-        //rel="noopener noreferrer"
-      >
+
+      {/*Social Media Sharing Feature (Feature 3-Stretch)*/}
+      <Button className="mt-3 w-full" variant="secondary" onClick={handleSocialClick} size="sm">
         <p>Share on Twitter</p>
       </Button>
       <h4 className="text-sm font-light italic">Author: {species.author}</h4>

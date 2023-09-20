@@ -1,3 +1,5 @@
+//Users Page
+
 import { Separator } from "@/components/ui/separator";
 import { TypographyH2 } from "@/components/ui/typography";
 import { toast } from "@/components/ui/use-toast";
@@ -14,7 +16,7 @@ export default async function SpeciesList() {
   } = await supabase.auth.getSession();
 
   if (!session) {
-    // this is a protected route - only users who are signed in can view this route
+    // Ensures that only users who are signed in can view this route
     redirect("/");
   }
 
@@ -35,15 +37,8 @@ export default async function SpeciesList() {
       </div>
       <Separator className="my-4" />
       <div className="flex flex-wrap justify-center">
-        {profiles?.map((profiles) => (
-          <UsersCard
-            key={profiles.id}
-            profiles={profiles}
-            // filterCriteria={filterCriteria}
-            // setFilteredSpecies={setFilteredSpecies}
-            // filterFunc={filterFunc} <h3 className="mt-3 text-2xl font-semibold">{profiles.display_name}</h3>
-          />
-        ))}
+        {/*Display User Card (Similar to Species Card but instead displaying user information)(Feature 3-Stretch)*/}
+        {profiles?.map((profiles) => <UsersCard key={profiles.id} profiles={profiles} />)}
       </div>
     </>
   );

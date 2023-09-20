@@ -18,6 +18,7 @@ export default async function Navbar({ className, ...props }: React.HTMLAttribut
           Species
         </Link>
       )}
+      {/*Adds User Page Link to Navbar*/}
       {session && (
         <Link href="/users" className="text-sm font-medium transition-colors hover:text-primary">
           Users

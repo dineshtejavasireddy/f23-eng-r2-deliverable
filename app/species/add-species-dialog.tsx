@@ -58,14 +58,6 @@ const defaultValues: Partial<FormData> = {
   kingdom: kingdoms.options[0], //"Animalia",
 };
 
-// interface WikipediaData {
-//   scientific_name: string;
-//   common_name: { display: string };
-//   description: string;
-//   image: { display: string };
-//   // Add other relevant fields as needed
-// }
-
 export default function AddSpeciesDialog({ userId }: { userId: string }) {
   const router = useRouter();
   const [open, setOpen] = useState<boolean>(false);
@@ -111,15 +103,16 @@ export default function AddSpeciesDialog({ userId }: { userId: string }) {
     router.refresh();
   };
 
+  //Interface Wikipedia API Response Data for Following Function
   interface WikipediaResponse {
     title: string;
     extract: string;
     originalimage: {
       source: string;
     };
-    // Add other relevant fields as needed
   }
 
+  //Retrieves Wikipedia API Search Data and Populates Add Species Dialog with Information (Feature 3-Stretch)
   const fillWithWikipediaData = async (searchQuery: string) => {
     try {
       const response = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${searchQuery}`);
@@ -128,7 +121,6 @@ export default function AddSpeciesDialog({ userId }: { userId: string }) {
         throw new Error("Failed to fetch Wikipedia data");
       }
       const data = (await response.json()) as WikipediaResponse;
-      // console.log("population error");
 
       // Extract relevant data from the Wikipedia response
       const sampleData = {
@@ -136,8 +128,7 @@ export default function AddSpeciesDialog({ userId }: { userId: string }) {
         common_name: data.title || "",
         description: data.extract || "",
         image: data.originalimage?.source || "",
-        population: 0, // Provide a default message if data is not found
-        // Add other relevant fields as needed
+        population: 0, // Provides a default message if data is not found
       };
 
       // Set form field values with the Wikipedia data
@@ -145,7 +136,6 @@ export default function AddSpeciesDialog({ userId }: { userId: string }) {
       form.setValue("common_name", sampleData.common_name);
       form.setValue("image", sampleData.image);
       form.setValue("description", sampleData.description);
-      // Set other fields as needed
     } catch (error) {
       toast({
         title: "Error",
@@ -166,8 +156,6 @@ export default function AddSpeciesDialog({ userId }: { userId: string }) {
       const data = (await response.json()) as { query: { search?: WikipediaResponse[] } };
 
       // Extract search results from the Wikipedia response
-      //const query = data.query as { search?: string[] }; // Ensure query is of the expected type
-
       const results = data.query.search ?? [];
 
       // Update searchResults state with the retrieved search results
@@ -329,6 +317,7 @@ export default function AddSpeciesDialog({ userId }: { userId: string }) {
                 >
                   Cancel
                 </Button>
+                {/*Wikipedia API Search Button*/}
                 <Button
                   type="button"
                   className="ml-1 mr-1 flex-auto"
@@ -338,19 +327,21 @@ export default function AddSpeciesDialog({ userId }: { userId: string }) {
                   Fill with Wikipedia Data
                 </Button>
               </div>
+
+              {/*Display for Wikipedia Search Results (Only displays when user clicks "fill with..." button)*/}
               {searchWikipediaVisible && (
                 <div>
                   <p className="text-sm text-muted-foreground">
                     *Note that this feature only fetches Common Name, Image URL, and Description.*
                   </p>
 
-                  {/* Input field for Wikipedia search */}
+                  {/* Input field for Wikipedia search (User types common_name and selects an article to pull from*/}
                   <Input
                     type="text"
                     placeholder="Search Wikipedia with Species Common Name and Select Article"
                     onChange={(e) => void searchWikipedia(e.target.value)}
                   />
-                  {/* List of search results */}
+                  {/* List of search results(allows users to look through options of API responses) */}
                   <ul>
                     {searchResults.map((result, index) => (
                       <li key={index}>

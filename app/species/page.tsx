@@ -30,13 +30,7 @@ export default async function SpeciesList() {
         {species?.map((species) => {
           if (species.kingdom) {
             return (
-              // <SpeciesCard
-              //   key={species.id}
-              //   species={species}
-              //   // filterCriteria={filterCriteria}
-              //   // setFilteredSpecies={setFilteredSpecies}
-              //   // filterFunc={filterFunc}
-              // />
+              //Species Card Element Creation
               <SpeciesCard
                 key={species.id}
                 author={species.author}
@@ -47,11 +41,10 @@ export default async function SpeciesList() {
                 kingdom={species.kingdom}
                 scientific_name={species.scientific_name}
                 total_population={species.total_population}
-                // Other props...
               />
             );
           }
-          return null; // If the species doesn't match the filter, return null to skip rendering it
+          return null;
         })}
       </div>
     </>
