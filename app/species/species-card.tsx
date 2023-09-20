@@ -477,7 +477,7 @@ export default function SpeciesCard(species: Species) {
         onClick={handleSocialClick}
         target="_blank"
         size="sm"
-        rel="noopener noreferrer"
+        //rel="noopener noreferrer"
       >
         <p>Share on Twitter</p>
       </Button>
