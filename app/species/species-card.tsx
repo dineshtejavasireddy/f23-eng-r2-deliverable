@@ -68,7 +68,7 @@ export default function SpeciesCard(species: Species) {
   const [open, setOpen] = useState<boolean>(false);
   const [isMounted, setIsMounted] = useState(false);
   const [showRelatedArticles, setShowRelatedArticles] = useState(false);
-  const [relatedArticles, setRelatedArticles] = useState([]);
+  const [relatedArticles, setRelatedArticles] = useState<NewsArticle[]>([]);
 
   // const supabase = createClientComponentClient<Database>();
   // authorName = supabase.from("profiles").select("display_name").eq("id", species.author);
@@ -199,7 +199,7 @@ export default function SpeciesCard(species: Species) {
       const articles = await fetchRelatedArticles(species_common);
 
       // Update the relatedArticles state with the fetched articles
-      setRelatedArticles(articles);
+      setRelatedArticles(articles as NewsArticle[]);
 
       // Show the related articles section
       setShowRelatedArticles(true);
@@ -263,7 +263,7 @@ export default function SpeciesCard(species: Species) {
                 {relatedArticles.length > 0 ? (
                   <ul>
                     {relatedArticles.slice(0, 3).map((article) => (
-                      <li key={article.title as string}>
+                      <li key={article.title}>
                         <Button
                           className="mt-3 w-full"
                           variant="secondary"
