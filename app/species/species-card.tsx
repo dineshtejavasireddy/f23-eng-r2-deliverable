@@ -241,7 +241,7 @@ export default function SpeciesCard(species: Species) {
 
           <div>
             <div className="relative h-40 w-full">
-              <Image src={species.image} alt={species.scientific_name} fill style={{ objectFit: "cover" }} />
+              <Image src={species.image ?? ""} alt={species.scientific_name} fill style={{ objectFit: "cover" }} />
             </div>
             <h3 className="mt-3 text-2xl font-semibold">{species.common_name}</h3>
             <h4 className="text-lg font-light italic">{species.scientific_name}</h4>
