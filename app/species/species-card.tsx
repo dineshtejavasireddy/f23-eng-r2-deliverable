@@ -269,7 +269,7 @@ export default function SpeciesCard(species: Species) {
                           variant="secondary"
                           //href={article.url as string}
                           target="_blank"
-                          rel="noopener noreferrer"
+                          //rel="noopener noreferrer"
                         >
                           {article.title}
                         </Button>
