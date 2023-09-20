@@ -22,7 +22,7 @@ export default async function SpeciesList() {
 
   return (
     <>
-      <div type="flex" className="mb-5 flex flex-wrap items-center justify-between gap-4">
+      <div className="mb-5 flex flex-wrap items-center justify-between gap-4">
         <TypographyH2>Species List</TypographyH2>
         <AddSpeciesDialog key={new Date().getTime()} userId={session.user.id} />
       </div>
