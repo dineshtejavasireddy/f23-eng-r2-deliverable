@@ -267,7 +267,7 @@ export default function SpeciesCard(species: Species) {
                         <Button
                           className="mt-3 w-full"
                           variant="secondary"
-                          href={article.url as string}
+                          //href={article.url as string}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
