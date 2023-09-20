@@ -83,7 +83,7 @@ export default function SpeciesCard(species: Species) {
     kingdom: species.kingdom,
     scientific_name: species.scientific_name,
     total_population: species.total_population ?? 0,
-    image: species.image,
+    image: species.image ?? "",
   };
 
   const form = useForm<FormData>({
