@@ -41,10 +41,9 @@ export default async function SpeciesList() {
             profiles={profiles}
             // filterCriteria={filterCriteria}
             // setFilteredSpecies={setFilteredSpecies}
-            // filterFunc={filterFunc}
+            // filterFunc={filterFunc} <h3 className="mt-3 text-2xl font-semibold">{profiles.display_name}</h3>
           />
         ))}
-        <h3 className="mt-3 text-2xl font-semibold">{profiles.display_name}</h3>
       </div>
     </>
   );
