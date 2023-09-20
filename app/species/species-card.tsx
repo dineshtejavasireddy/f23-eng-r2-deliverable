@@ -96,16 +96,14 @@ export default function SpeciesCard(species: Species) {
     const supabase = createClientComponentClient<Database>();
     const { error } = await supabase
       .from("species")
-      .update([
-        {
-          common_name: input.common_name,
-          description: input.description,
-          kingdom: input.kingdom,
-          scientific_name: input.scientific_name,
-          total_population: input.total_population,
-          image: input.image,
-        },
-      ])
+      .update({
+        common_name: input.common_name,
+        description: input.description,
+        kingdom: input.kingdom,
+        scientific_name: input.scientific_name,
+        total_population: input.total_population,
+        image: input.image,
+      })
       .eq("scientific_name", species.scientific_name);
 
     if (error) {
