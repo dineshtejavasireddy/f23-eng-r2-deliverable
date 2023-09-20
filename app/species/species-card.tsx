@@ -253,7 +253,7 @@ export default function SpeciesCard(species: Species) {
               className="mt-3 w-full"
               variant="secondary"
               onClick={() => void handleViewRelatedArticlesClick(species.common_name)}
-              href={`/species/${species.id}`}
+              //href={`/species/${species.id}`}
             >
               Browse Related Articles
             </Button>
