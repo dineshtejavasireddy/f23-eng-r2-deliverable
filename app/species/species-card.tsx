@@ -385,7 +385,7 @@ export default function SpeciesCard(species: Species) {
                           <FormItem>
                             <FormLabel>Image URL</FormLabel>
                             <FormControl>
-                              <Input placeholder={species.image} {...field} />
+                              <Input placeholder={species.image ?? ""} {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
