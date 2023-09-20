@@ -268,7 +268,7 @@ export default function SpeciesCard(species: Species) {
                           className="mt-3 w-full"
                           variant="secondary"
                           //href={article.url as string}
-                          target="_blank"
+                          //target="_blank"
                           //rel="noopener noreferrer"
                         >
                           {article.title}
@@ -475,7 +475,7 @@ export default function SpeciesCard(species: Species) {
         className="mt-3 w-full"
         variant="secondary"
         onClick={handleSocialClick}
-        target="_blank"
+        //target="_blank"
         size="sm"
         //rel="noopener noreferrer"
       >
