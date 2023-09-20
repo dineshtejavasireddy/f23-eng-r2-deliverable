@@ -229,7 +229,7 @@ export default function SpeciesCard(species: Species) {
             className="mt-3 w-full"
             onClick={() => setOpen(true)}
             //onClick={() => handleViewRelatedArticlesClick}
-            href={`/species/${species.id}`}
+            ref={`/species/${species.id}`}
           >
             Learn More
           </Button>
