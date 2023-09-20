@@ -82,7 +82,7 @@ export default function SpeciesCard(species: Species) {
     description: species.description,
     kingdom: species.kingdom,
     scientific_name: species.scientific_name,
-    total_population: species.total_population,
+    total_population: species.total_population ?? 0,
     image: species.image,
   };
 
