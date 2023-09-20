@@ -30,12 +30,24 @@ export default async function SpeciesList() {
         {species?.map((species) => {
           if (species.kingdom) {
             return (
+              // <SpeciesCard
+              //   key={species.id}
+              //   species={species}
+              //   // filterCriteria={filterCriteria}
+              //   // setFilteredSpecies={setFilteredSpecies}
+              //   // filterFunc={filterFunc}
+              // />
               <SpeciesCard
                 key={species.id}
-                species={species}
-                // filterCriteria={filterCriteria}
-                // setFilteredSpecies={setFilteredSpecies}
-                // filterFunc={filterFunc}
+                author={species.author}
+                common_name={species.common_name}
+                description={species.description}
+                id={species.id}
+                image={species.image}
+                kingdom={species.kingdom}
+                scientific_name={species.scientific_name}
+                total_population={species.total_population}
+                // Other props...
               />
             );
           }
